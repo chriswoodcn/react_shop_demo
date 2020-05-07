@@ -1,5 +1,6 @@
+/*eslint-disable*/
 import echo from '../libs/echo.js';
-import action from "../../../actions";
+import action from "../../../store/actions";
 import config from "../conf/config";
 import {request} from "../libs/request";
 function lazyImg(){

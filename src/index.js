@@ -6,20 +6,17 @@ import ReactDOM from 'react-dom';
 import RouterComponent from './route/router';
 import "./assets/css/common/public.css";
 import './assets/js/conf/global.js';
-// import {createStore} from 'redux';
-// import {Provider} from 'react-redux';
-// import reducers from './reducers';
-// let store=createStore(reducers);
-
+import {Provider} from 'react-redux'
+import store from './store'
 import * as serviceWorker from './serviceWorker';
 
 class Index extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/*<Provider store={store}>*/}
+                <Provider store={store}>
                     <RouterComponent/>
-                {/*</Provider>*/}
+                </Provider>
             </React.Fragment>
         )
     }

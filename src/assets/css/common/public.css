@@ -1,3 +1,5 @@
+@import './iconfont.css';
+
 * {
     margin: 0;
     padding: 0;
@@ -26,6 +28,7 @@ html, body {
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    --color-theme: orangered;
 }
 
 /*可以用js的window.innerWidth获取屏幕宽度来做媒体查询,可以用window.devicePixelRatio检测设备像素比*/

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux'
-import Css from '../../../assets/css/home/home/index.css';
+import Css from '../../../assets/css/home/home/index.module.css';
 import config from '../../../assets/js/conf/config.js';
-
+import CacheRoute, {CacheSwitch} from 'react-router-cache-route'
 import asyncComponents from '../../../components/async/AsyncComponent';
 
 const IndexComponent = asyncComponents(() => import('../index/index'));
@@ -26,6 +26,10 @@ class HomeComponent extends Component {
         this.handleNavStyle(this.props)
     }
 
+    componentWillReceiveProps(newProps) {
+        this.handleNavStyle(newProps)
+    }
+
     handleNavStyle(props) {
         switch (props.location.pathname) {
             case config.path + "home/index":
@@ -44,7 +48,7 @@ class HomeComponent extends Component {
                     selectUser: false
                 });
                 break;
-            case config.path + "goods/classify":
+            case config.path + "home/classify":
                 this.setState({
                     selectHome: false,
                     selectCart: false,
@@ -65,38 +69,38 @@ class HomeComponent extends Component {
         }
     }
 
-    goPage(pUrl) {
-        this.props.history.push(config.path + pUrl);
+    goPage(url) {
+        this.props.history.push(config.path + url);
     }
 
     render() {
-        console.log(Css)
         return (
             <div>
                 <React.Fragment>
-                    <Switch>
-                        <Route path={config.path + "home/index"} component={IndexComponent}/>
+                    <CacheSwitch>
+                        <CacheRoute path={config.path + "home/index"} component={IndexComponent}
+                                    saveScrollPosition={true}/>
                         <Route path={config.path + "home/classify"} component={GoodsClassify}/>
                         <Route path={config.path + "home/cart"} component={CartIndex}/>
                         <Route path={config.path + "home/my"} component={UserIndex}/>
-                    </Switch>
+                    </CacheSwitch>
                 </React.Fragment>
                 <div className={Css['bottom-nav']}>
                     <ul onClick={this.goPage.bind(this, 'home/index')}>
-                        <li className={this.state.selectHome ? Css['home'] + " " + Css['active'] : Css['home']}/>
+                        <li className={this.state.selectHome ? Css['home'] + " " + Css['active'] + ' iconfont icon-shouye' : Css['home'] + ' iconfont icon-shouye'}/>
                         <li className={this.state.selectHome ? Css['text'] + " " + Css['active'] : Css['text']}>首页</li>
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/classify')}>
-                        <li className={this.state.selectHome ? Css['classify'] + " " + Css['active'] : Css['classify']}/>
-                        <li className={this.state.selectHome ? Css['text'] + " " + Css['active'] : Css['text']}>分类</li>
+                        <li className={this.state.selectGoods ? Css['home'] + " " + Css['active'] + ' iconfont icon-fenlei' : Css['home'] + ' iconfont icon-fenlei'}/>
+                        <li className={this.state.selectGoods ? Css['text'] + " " + Css['active'] : Css['text']}>分类</li>
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/cart')}>
-                        <li className={this.state.selectCart ? Css['cart'] + " " + Css['active'] : Css['cart']}/>
+                        <li className={this.state.selectCart ? Css['home'] + " " + Css['active'] + ' iconfont icon-gouwuche' : Css['home'] + ' iconfont icon-gouwuche'}/>
                         <li className={this.state.selectCart ? Css['text'] + " " + Css['active'] : Css['text']}>购物车</li>
                         {/*<li className={this.props.state.cart.aCartData.length > 0 ? Css['spot'] : Css['spot'] + " hide"}></li>*/}
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/my')}>
-                        <li className={this.state.selectUser ? Css['my'] + " " + Css['active'] : Css['my']}/>
+                        <li className={this.state.selectUser ? Css['home'] + " " + Css['active'] + ' iconfont icon-wode' : Css['home'] + ' iconfont icon-wode'}/>
                         <li className={this.state.selectUser ? Css['text'] + " " + Css['active'] : Css['text']}>我的</li>
                     </ul>
                 </div>
