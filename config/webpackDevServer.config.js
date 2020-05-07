@@ -103,11 +103,11 @@ module.exports = function(proxy, allowedHost) {
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     // proxy,
     proxy:{
-      "/proxy": {
+      "/api": {
         "target": "http://vueshop.glbuys.com",
         "changeOrigin": "true",
         "pathRewrite": {
-          "^/proxy":""
+          "^/api":""
         }
       }
     },

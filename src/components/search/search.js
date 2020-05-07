@@ -3,7 +3,7 @@ import {withRouter} from 'react-router';
 import config from '../../assets/js/conf/config.js';
 import {request} from "../../assets/js/libs/request";
 import {Modal, Toast} from 'antd-mobile';
-import Css from './search.css';
+import Css from './search.module.css';
 import {connect} from "react-redux";
 import action from '../../store/actions';
 
@@ -90,7 +90,7 @@ class SearchComponent extends React.Component {
         return (
             <div style={this.props.pageStyle} className={Css['page']}>
                 <div className={Css['search-header']}>
-                    <div className={Css['close']} onClick={this.props.childStyle.bind(this, {display: "none"})}></div>
+                    <div className={Css['close']} onClick={this.props.childStyle.bind(this, {display: "none"})}/>
                     <div className={Css['search-wrap']}>
                         <div className={Css['search-input-wrap']}>
                             <input type="text" className={Css['search']} placeholder="请输入宝贝名称"
@@ -99,13 +99,13 @@ class SearchComponent extends React.Component {
                             }} ref="keywords"/>
                         </div>
                         <button type="button" className={Css['search-btn']}
-                                onClick={this.addHistoryKeywords.bind(this)}></button>
+                                onClick={this.addHistoryKeywords.bind(this)}/>
                     </div>
                 </div>
                 <div className={this.state.bHistory ? Css['search-main'] : Css['search-main'] + " hide"}>
                     <div className={Css['search-title-wrap']}>
                         <div className={Css['search-title']}>最近搜索</div>
-                        <div className={Css['bin']} onClick={this.clearHistory.bind(this)}></div>
+                        <div className={Css['bin']} onClick={this.clearHistory.bind(this)}/>
                     </div>
                     <div className={Css['search-keywords-wrap']}>
                         {
@@ -142,8 +142,4 @@ class SearchComponent extends React.Component {
     }
 }
 
-export default connect((state) => {
-    return {
-        state: state
-    }
-})(withRouter(SearchComponent))
+export default connect(state => ({state}))(withRouter(SearchComponent));

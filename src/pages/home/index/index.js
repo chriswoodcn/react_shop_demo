@@ -6,8 +6,8 @@ import {connect} from "react-redux";
 import {lazyImg, setScrollTop} from '../../../assets/js/utils/util.js';
 import {getSwiper, getNav, getGoodsLevel, getReco} from "../../../api";
 import Css from '../../../assets/css/home/index/index.module.css';
+// import config from '../../../assets/js/conf/config.js';
 import SearchComponent from '../../../components/search/search';
-import {Provider as KeepAliveProvider, KeepAlive} from 'react-keep-alive';
 
 class IndexComponent extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class IndexComponent extends Component {
             pageStyle: {display: "none"}
         }
         // 控制内存溢出
-        // this.bScroll = true;
+        this.bScroll = true;
         this.swiperRef = React.createRef()
 
     }
@@ -32,33 +32,35 @@ class IndexComponent extends Component {
         this.setNav()
         this.setGoodsLevel()
         this.setReco()
-        // window.addEventListener("scroll", () => this.eventScroll, false);
+        window.addEventListener("scroll", () => this.eventScroll(), false);
     }
 
     componentWillUnmount() {
-        // this.bScroll = false
-        // window.removeEventListener("scroll", () => this.eventScroll);
+        this.bScroll = false
+        window.removeEventListener("scroll", () => this.eventScroll());
     }
 
-    // eventScroll() {
-    //     if (this.bScroll) {
-    //         let iScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    //         // 记录页面滚动的位置
-    //         global.scrollTop.index = iScrollTop;
-    //         if (iScrollTop >= 80) {
-    //             this.setState({bScroll: true})
-    //         } else {
-    //             this.setState({bScroll: false})
-    //         }
-    //     }
-    // }
+    eventScroll() {
+        if (this.bScroll) {
+            let iScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            // console.log(iScrollTop)
+            // 记录页面滚动的位置
+            // global.scrollTop.index = iScrollTop;
+            if (iScrollTop >= 100) {
+                this.setState({bScroll: true})
+            } else {
+                this.setState({bScroll: false})
+            }
+        }
+    }
 
     pushPage(url) {
         this.props.history.push(url)
     }
 
-    clickSearch(e) {
-        e.preventDefault()
+    clickSearch() {
+        console.log(1111111)
+        this.setState({pageStyle: {display: "block"}})
     }
 
     setSwiper() {
@@ -104,6 +106,10 @@ class IndexComponent extends Component {
         })
     }
 
+    getStyle(val) {
+        this.setState({pageStyle: val})
+    }
+
     render() {
         return (
             <div className={Css['page']}>
@@ -111,7 +117,7 @@ class IndexComponent extends Component {
                 <div
                     className={this.state.bScroll ? Css['search-header'] + " " + Css["red-bg"] : Css['search-header']}>
                     <div className={Css['classify-icon']} onClick={() => this.pushPage("goods/classify/items")}/>
-                    <div className={Css['search-wrap']} onClick={() => this.clickSearch}>
+                    <div className={Css['search-wrap']} onClick={() => this.clickSearch()}>
                         <div className={Css['search-icon']}/>
                         <div className={Css['search-text']}>请输入宝贝名称</div>
                     </div>
@@ -274,13 +280,11 @@ class IndexComponent extends Component {
                             : ''
                     }
                 </div>
-                {/*/!*搜索*!/*/}
-                {/*<SearchComponent pageStyle={this.state.pageStyle} childStyle={this.getStyle.bind(this)}/>*/}
+                {/*搜索*/}
+                <SearchComponent pageStyle={this.state.pageStyle} childStyle={() => this.getStyle}/>
             </div>
         );
     }
 }
 
-export default connect(state => {
-    return {state}
-})(IndexComponent);
+export default connect(state => ({state}))(IndexComponent);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Route, Switch} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {connect} from 'react-redux'
 import Css from '../../../assets/css/home/home/index.module.css';
 import config from '../../../assets/js/conf/config.js';
@@ -15,10 +15,10 @@ class HomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectHome: true,
+            selectHome: false,
             selectCart: false,
             selectGoods: false,
-            selectUser: false
+            selectUser: false,
         }
     }
 
@@ -26,48 +26,46 @@ class HomeComponent extends Component {
         this.handleNavStyle(this.props)
     }
 
-    componentWillReceiveProps(newProps) {
-        this.handleNavStyle(newProps)
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+        this.handleNavStyle(nextProps)
     }
 
     handleNavStyle(props) {
-        switch (props.location.pathname) {
-            case config.path + "home/index":
-                this.setState({
-                    selectHome: true,
-                    selectCart: false,
-                    selectGoods: false,
-                    selectUser: false
-                });
-                break;
-            case config.path + "home/cart":
-                this.setState({
-                    selectHome: false,
-                    selectCart: true,
-                    selectGoods: false,
-                    selectUser: false
-                });
-                break;
-            case config.path + "home/classify":
-                this.setState({
-                    selectHome: false,
-                    selectCart: false,
-                    selectGoods: true,
-                    selectUser: false
-                });
-                break;
-            case config.path + "home/my":
-                this.setState({
-                    selectHome: false,
-                    selectCart: false,
-                    selectGoods: false,
-                    selectUser: true
-                });
-                break;
-            default:
-                break;
+        let path = props.location.pathname
+        if (path.startsWith(config.path + "home/index")) {
+            this.setState({
+                selectHome: true,
+                selectCart: false,
+                selectGoods: false,
+                selectUser: false
+            });
+        }
+        if (path.startsWith(config.path + "home/cart")) {
+            this.setState({
+                selectHome: false,
+                selectCart: true,
+                selectGoods: false,
+                selectUser: false
+            });
+        }
+        if (path.startsWith(config.path + "home/goods/classify")) {
+            this.setState({
+                selectHome: false,
+                selectCart: false,
+                selectGoods: true,
+                selectUser: false
+            });
+        }
+        if (path.startsWith(config.path + "home/my")) {
+            this.setState({
+                selectHome: false,
+                selectCart: false,
+                selectGoods: false,
+                selectUser: true
+            });
         }
     }
+
 
     goPage(url) {
         this.props.history.push(config.path + url);
@@ -80,7 +78,7 @@ class HomeComponent extends Component {
                     <CacheSwitch>
                         <CacheRoute path={config.path + "home/index"} component={IndexComponent}
                                     saveScrollPosition={true}/>
-                        <Route path={config.path + "home/classify"} component={GoodsClassify}/>
+                        <Route path={config.path + "home/goods/classify"} component={GoodsClassify}/>
                         <Route path={config.path + "home/cart"} component={CartIndex}/>
                         <Route path={config.path + "home/my"} component={UserIndex}/>
                     </CacheSwitch>
@@ -90,13 +88,13 @@ class HomeComponent extends Component {
                         <li className={this.state.selectHome ? Css['home'] + " " + Css['active'] + ' iconfont icon-shouye' : Css['home'] + ' iconfont icon-shouye'}/>
                         <li className={this.state.selectHome ? Css['text'] + " " + Css['active'] : Css['text']}>首页</li>
                     </ul>
-                    <ul onClick={this.goPage.bind(this, 'home/classify')}>
+                    <ul onClick={this.goPage.bind(this, 'home/goods/classify')}>
                         <li className={this.state.selectGoods ? Css['home'] + " " + Css['active'] + ' iconfont icon-fenlei' : Css['home'] + ' iconfont icon-fenlei'}/>
                         <li className={this.state.selectGoods ? Css['text'] + " " + Css['active'] : Css['text']}>分类</li>
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/cart')}>
                         <li className={this.state.selectCart ? Css['home'] + " " + Css['active'] + ' iconfont icon-gouwuche' : Css['home'] + ' iconfont icon-gouwuche'}/>
-                        <li className={this.state.selectCart ? Css['text'] + " " + Css['active'] : Css['text']}>购物车</li>
+                        <li className={this.state.selectCart ? Css['text'] + " " + Css['active'] : Css['text']}>购物</li>
                         {/*<li className={this.props.state.cart.aCartData.length > 0 ? Css['spot'] : Css['spot'] + " hide"}></li>*/}
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/my')}>
@@ -109,5 +107,4 @@ class HomeComponent extends Component {
     }
 }
 
-// export default connect(state => ({state}))(HomeComponent);
-export default HomeComponent;
+export default connect(state => ({state}))(HomeComponent);
