@@ -1,11 +1,11 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import config from '../../assets/js/conf/config.js';
-import {request} from "../../assets/js/libs/request";
 import {Modal, Toast} from 'antd-mobile';
 import Css from './search.module.css';
 import {connect} from "react-redux";
 import action from '../../store/actions';
+import {getHotKeywords} from "../../api";
 
 class SearchComponent extends React.Component {
     constructor(props) {
@@ -24,11 +24,11 @@ class SearchComponent extends React.Component {
         } else {
             this.setState({bHistory: false})
         }
-        this.getHotKeywords();
+        this.setHotKeywords();
     }
 
-    getHotKeywords() {
-        request(config.baseUrl + "/api/home/public/hotwords?token=" + config.token).then(res => {
+    setHotKeywords() {
+        getHotKeywords().then(res => {
             if (res.code === 200) {
                 this.setState({aHotKeywords: res.data})
             } else {
@@ -55,6 +55,7 @@ class SearchComponent extends React.Component {
     }
 
     addHistoryKeywords() {
+        console.log(11111111111)
         let keywords = this.state.keywords || this.props.keywords;
         if (this.refs['keywords'].value !== "") {
             for (let i = 0; i < this.aKeywords.length; i++) {
@@ -66,7 +67,7 @@ class SearchComponent extends React.Component {
             localStorage['hk'] = JSON.stringify(this.aKeywords);
             this.props.dispatch(action.hk.addHistoryKeywords({keywords: this.aKeywords}));
             this.setState({bHistory: true});
-            this.goPage("goods/search?keywords=" + keywords, keywords)
+            this.goPage("home/goods/search?keywords=" + keywords, keywords)
         } else {
             Toast.info('请输入宝贝名称', 2);
         }
@@ -89,6 +90,7 @@ class SearchComponent extends React.Component {
     render() {
         return (
             <div style={this.props.pageStyle} className={Css['page']}>
+                {/*头部搜索框*/}
                 <div className={Css['search-header']}>
                     <div className={Css['close']} onClick={this.props.childStyle.bind(this, {display: "none"})}/>
                     <div className={Css['search-wrap']}>
@@ -102,6 +104,7 @@ class SearchComponent extends React.Component {
                                 onClick={this.addHistoryKeywords.bind(this)}/>
                     </div>
                 </div>
+                {/*历史搜索*/}
                 <div className={this.state.bHistory ? Css['search-main'] : Css['search-main'] + " hide"}>
                     <div className={Css['search-title-wrap']}>
                         <div className={Css['search-title']}>最近搜索</div>
@@ -120,6 +123,7 @@ class SearchComponent extends React.Component {
                         }
                     </div>
                 </div>
+                {/*热门搜索*/}
                 <div className={Css['search-main']}>
                     <div className={Css['search-title-wrap']}>
                         <div className={Css['search-title']}>热门搜索</div>
@@ -142,4 +146,6 @@ class SearchComponent extends React.Component {
     }
 }
 
-export default connect(state => ({state}))(withRouter(SearchComponent));
+export default connect(state => {
+    return {state}
+})(withRouter(SearchComponent));

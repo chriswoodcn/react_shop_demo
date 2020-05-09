@@ -3,9 +3,9 @@ var UpRefresh=function(opts,callback){
     if(opts instanceof Object) {
         this.opts = opts;
         this.iMaxPage=this.opts.maxPage;
-        this.fnCallback=callback;
         this.iOffsetBottom=this.opts.offsetBottom;
         this.iCurPage=this.opts.curPage;
+        this.fnCallback=callback;
         this.init();
     }
 };
@@ -46,9 +46,9 @@ UpRefresh.prototype={
 };
 
 //这个判断支持模块化比如react和vue
-if ( typeof module != 'undefined' && module.exports ) {
+if ( typeof module != 'undefined' && module.exports ) { //commonJS
     module.exports = UpRefresh;
-} else if ( typeof define == 'function' && define.amd ) {
+} else if ( typeof define == 'function' && define.amd ) { //AMD
     define( function () { return UpRefresh; } );
 } else if(typeof window != "undefined") {
     window.UpRefresh = UpRefresh;

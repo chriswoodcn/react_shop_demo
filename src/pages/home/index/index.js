@@ -3,10 +3,10 @@ import React, {Component} from 'react'
 import Swiper from '../../../assets/js/libs/swiper.min.js';
 import "../../../assets/css/common/swiper.min.css";
 import {connect} from "react-redux";
-import {lazyImg, setScrollTop} from '../../../assets/js/utils/util.js';
+import {lazyImg} from '../../../assets/js/utils/util.js';
+import config from '../../../assets/js/conf/config.js';
 import {getSwiper, getNav, getGoodsLevel, getReco} from "../../../api";
 import Css from '../../../assets/css/home/index/index.module.css';
-// import config from '../../../assets/js/conf/config.js';
 import SearchComponent from '../../../components/search/search';
 
 class IndexComponent extends Component {
@@ -55,11 +55,10 @@ class IndexComponent extends Component {
     }
 
     pushPage(url) {
-        this.props.history.push(url)
+        this.props.history.push(config.path + url)
     }
 
     clickSearch() {
-        console.log(1111111)
         this.setState({pageStyle: {display: "block"}})
     }
 
@@ -114,9 +113,8 @@ class IndexComponent extends Component {
         return (
             <div className={Css['page']}>
                 {/*头部搜索框*/}
-                <div
-                    className={this.state.bScroll ? Css['search-header'] + " " + Css["red-bg"] : Css['search-header']}>
-                    <div className={Css['classify-icon']} onClick={() => this.pushPage("goods/classify/items")}/>
+                <div className={this.state.bScroll ? Css['search-header'] + " " + Css["red-bg"] : Css['search-header']}>
+                    <div className={Css['classify-icon']} onClick={() => this.pushPage("home/goods/classify/items")}/>
                     <div className={Css['search-wrap']} onClick={() => this.clickSearch()}>
                         <div className={Css['search-icon']}/>
                         <div className={Css['search-text']}>请输入宝贝名称</div>
@@ -156,7 +154,7 @@ class IndexComponent extends Component {
                                     <ul key={index} className={Css['item']}>
                                         <li className={Css['item-img']}>
                                             <img src={item.image} alt={item.title}
-                                                 onClick={() => this.pushPage('goods/classify/items?cid=' + item.cid)}/>
+                                                 onClick={() => this.pushPage('home/goods/classify/items?cid=' + item.cid)}/>
                                         </li>
                                         <li className={Css['item-text']}>{item.title}</li>
                                     </ul>
@@ -281,7 +279,7 @@ class IndexComponent extends Component {
                     }
                 </div>
                 {/*搜索*/}
-                <SearchComponent pageStyle={this.state.pageStyle} childStyle={() => this.getStyle}/>
+                <SearchComponent pageStyle={this.state.pageStyle} childStyle={this.getStyle.bind(this)}/>
             </div>
         );
     }

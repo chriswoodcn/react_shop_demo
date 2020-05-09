@@ -110,6 +110,6 @@ html, body {
 }
 
 .height-hide {
-    height: 0px;
+    height: 0;
     overflow: hidden;
 }
