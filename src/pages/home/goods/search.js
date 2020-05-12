@@ -455,7 +455,7 @@ export default class GoodsSearch extends React.Component {
                 <div ref="mask" className={this.state.bMask ? Css['mask'] : Css['mask'] + " hide"}
                      onClick={this.hideScreen.bind(this)}/>
                 <div ref="screen" className={Css['screen'] + " " + this.state.screenMove}>
-                    <div>
+                    <div className={Css['scroll-wrap']}>
                         <div className={Css['attr-wrap']}>
                             <div className={Css['attr-title-wrap']} onClick={this.handleClassify.bind(this)}>
                                 <div className={Css['attr-name']}>分类</div>
@@ -507,7 +507,8 @@ export default class GoodsSearch extends React.Component {
                                 }
                             </div>
                         </div>
-                        <div style={{width: "100%", height: "0.3rem", backgroundColor: "#EFEFEF"}}/>
+                        {this.state.aAttr.length > 0 &&
+                        <div style={{width: "100%", height: "0.3rem", backgroundColor: "#EFEFEF"}}/>}
                         {
                             this.state.aAttr.length > 0 ?
                                 this.state.aAttr.map((item, index) => {

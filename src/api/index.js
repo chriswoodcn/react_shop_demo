@@ -41,3 +41,32 @@ export function getAttrData(keywords) {
     return request(config.baseUrl + "/api/home/goods/param?kwords=" + keywords + "&token=" + config.token)
 }
 
+// 获取商品详情的轮播图
+export function getGoodsInfo(gid) {
+    return request(config.baseUrl + "/api/home/goods/info?gid=" + gid + "&type=details&token=" + config.token)
+}
+
+// 获取商品详情的规格属性
+export function getGoodsAttr(gid) {
+    return request(config.baseUrl + "/api/home/goods/info?gid=" + gid + "&type=spec&token=" + config.token)
+}
+
+// 获取商品详情的评论
+export function getReviews(gid) {
+    return request(config.baseUrl + "/api/home/reviews/index?gid=" + gid + "&token=" + config.token + "&page=1")
+}
+
+// 商品加入收藏
+export function addFav(uid, gid) {
+    return request(config.baseUrl + "/api/goods/fav?uid=" + uid + "&gid=" + gid + "&token=" + config.token)
+}
+
+// 获取商品详情的评论的滚动页面
+export function getReviewsScrollPage(gid, curPage) {
+    return request(config.baseUrl + "/api/home/reviews/index?gid=" + gid + "&token=" + config.token + "&page=" + curPage)
+}
+
+// 获取商品详情的详情内容
+export function getDetailsContent(gid) {
+    return request(config.baseUrl + "/api/home/goods/info?gid=" + gid + "&type=details&token=" + config.token)
+}

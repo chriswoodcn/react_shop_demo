@@ -55,7 +55,6 @@ class SearchComponent extends React.Component {
     }
 
     addHistoryKeywords() {
-        console.log(11111111111)
         let keywords = this.state.keywords || this.props.keywords;
         if (this.refs['keywords'].value !== "") {
             for (let i = 0; i < this.aKeywords.length; i++) {

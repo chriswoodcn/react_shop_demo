@@ -95,7 +95,7 @@ class HomeComponent extends Component {
                     <ul onClick={this.goPage.bind(this, 'home/cart')}>
                         <li className={this.state.selectCart ? Css['home'] + " " + Css['active'] + ' iconfont icon-gouwuche' : Css['home'] + ' iconfont icon-gouwuche'}/>
                         <li className={this.state.selectCart ? Css['text'] + " " + Css['active'] : Css['text']}>购物</li>
-                        {/*<li className={this.props.state.cart.aCartData.length > 0 ? Css['spot'] : Css['spot'] + " hide"}></li>*/}
+                        <li className={this.props.state.cart.aCartData.length > 0 ? Css['spot'] : Css['spot'] + " hide"}/>
                     </ul>
                     <ul onClick={this.goPage.bind(this, 'home/my')}>
                         <li className={this.state.selectUser ? Css['home'] + " " + Css['active'] + ' iconfont icon-wode' : Css['home'] + ' iconfont icon-wode'}/>
